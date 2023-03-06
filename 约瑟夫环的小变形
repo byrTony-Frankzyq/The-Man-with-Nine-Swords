@@ -1,0 +1,57 @@
+#include<iostream>
+using namespace std;
+
+//创建单链表
+struct linkrec{
+    int num;
+    linkrec* p_next;
+};
+
+int main() {
+    int n = 0; cin>>n; //n个人
+    int s = n;
+    int m[n-1];//n-1个数字，也就是说，每死一个人就换一个数字
+    for (int i=0;i<n-1;++i) {cin>>m[i];}//有个问题，VS上面好像不允许数组的规模是变量（原因应该是数组的空间是连续的，规模是变量比较危险
+    //参考 https://zhuanlan.zhihu.com/p/137564717 数组用的是栈空间。。。
+    linkrec *head, *p, *q;
+
+    p = new linkrec;
+    p->num = 1;  p->p_next =nullptr;
+    head = p;
+
+    for (int i=2;i<=n;++i) {
+        q = new linkrec;
+        q->num=i;
+        p->p_next = q;
+        p=q;
+    }
+    /*
+    只用一个指针创建一个链表也可以
+    这个细节自己掌握得不是很清楚，每次都是轩想，会花掉很多时间
+    */
+    p->p_next = head;
+    q = head;
+
+    int k=0;
+    while (k<n-1) {
+        int u = m[k]%s;//这一步是一个关键，因为m[k]可能远大于当前的人数，那么一直数就没有价值，不如先取模运算得到最小又等价的数
+        if(u==0) u=s; //好像可以和上面的合成一步吗？我不是很清楚
+        
+        for (int i=1;i<u;++i) {
+            p=q;
+            q=p->p_next;
+        }
+        //上面这个for循环就是跳过u-1个人
+        
+        p->p_next = q->p_next;
+        delete q;
+        //上面两行执行删除该节点，这里需要注意delete q 的含义，之前上课没玩明白，应该是若q申请了动态内存，那么delete q 是回收q指向的这部分内存，而q这个指针本身还在
+        q = p->p_next;
+        ++k;
+        --s;
+        //一些扫尾工作（进入下一次循环前）容易忘记
+    }
+    cout<<q->num;
+
+    return 0;
+}
