@@ -1,0 +1,146 @@
+//一个疑惑？为什么说模板函数的实现要在头文件里，还有那个typename的作用是什么？
+
+//还不太会用GitHub和git，不知道怎么上传一个文件夹，就全部写上来算了
+
+头文件部分
+#ifndef  CLASS
+#define CLASS
+#include<iostream>
+using namespace std;
+//xuyao zhuyi deshi mobanlei jiqi shixian yaozai yigewenjianli  but why?
+template<class elemType>
+class list {
+public:
+	virtual void clear() = 0;// =0表示 pure virtual function https://blog.csdn.net/ithomer/article/details/6031329
+	virtual int length() const = 0;//const 后缀修饰成员函数表示该函数不改变这个成员变量的值
+	virtual void insert(int i, const elemType &x) = 0;//const修饰这个 elemTypeb表示的是在这个函数当中该引用的值不被改变
+	virtual void remove(int i) = 0;
+	virtual elemType visit(int i) const = 0;
+	virtual void traverse() const = 0;
+	virtual ~list() {}
+};
+
+template<class elemType>
+class sLinkList :public list<elemType>
+{
+private:
+	struct node {
+		elemType data;
+		node *next;
+
+		//node(const elemType& x, node* n = nullptr) : data(x), next(n) {} 经检验，似乎结构体不能用初始化列表，看来和class还是有区别的
+		node(const elemType& x, node* n = nullptr) {
+			data = x;
+			next = n;
+		}
+    
+    //疑问？ 为什么可以在class里面新声明一个类，虽然逻辑上是合理或者说必须的（链表这个类的模板函数和节点结构体所对应的elemtype应该是一致的。
+
+		node() :next(nullptr) {}
+		~node() {}
+	};
+
+	node *head;
+	int currentLength;
+	node * move(int i) const;//返回第i个节点的位置；
+public:
+	sLinkList();
+	~sLinkList() { clear();delete head; }//简单的直接定义在类定义中
+	void clear();
+	int length()const { return currentLength; }
+	void insert(int i, const elemType&x);
+	void remove(int i);
+	int search(const elemType&x)const;
+	elemType visit(int i)const;
+	void traverse()const;
+
+};
+
+template <class elemType>
+typename sLinkList<elemType>::node* sLinkList<elemType>::move(int i)const {
+	node* p = head;
+	while (i-- >= 0) p = p->next;
+	return p;
+}
+
+template<class elemType>
+sLinkList<elemType>::sLinkList() {
+	head = new node;
+	currentLength = 0;
+}
+
+template<class elemType>
+void sLinkList<elemType>::clear() {
+	node *p = head->next, *q;
+	head->next = nullptr;
+	while (p != nullptr) {
+		q = p->next;
+		delete p;
+		p = q;
+	}
+	currentLength = 0;//容易漏掉
+}
+
+template<class elemType>
+void sLinkList<elemType>::insert(int i, const elemType & x) {
+	node* pos = move(i - 1);//找到第i-1个node
+	//node* cutting(x, pos->next);
+	//pos->next = cutting;
+	//上面那部分是我自己写的
+	pos->next = new node(x, pos->next);//这个一步到位，也比较好理解；
+	++currentLength; //容易漏掉
+}
+
+template<class elemType>
+void sLinkList<elemType>::remove(int i) {
+	node* pos = move(i - 1);
+	node* now = pos->next;
+	pos->next = now->next;
+	delete now;
+	currentLength--;
+}
+
+template<class elemType>
+int  sLinkList<elemType>::search(const elemType&x) const {
+	node* p = head->next;
+	int i = 0;
+	while (p != nullptr&&p->data != x) {
+		i++;
+		p = p->next;
+	}
+	if (p == nullptr) return -1;
+	else return i;
+}
+
+template<class elemType>
+elemType sLinkList<elemType>::visit(int i) const {
+	//node* pos = move(i);
+	//return pos->data;
+	return move(i)->data;//更简洁，但是还是创建了一个临时变量，只不过没名字
+}
+
+template<class elemType>
+void sLinkList<elemType>::traverse()const {
+	node*p = head->next;
+	while (p != nullptr) {
+		cout << p->data << ' ';
+		p = p->next;
+	}
+	cout << endl;
+}
+#endif
+
+
+下面是检验的main函数：
+#include<iostream>
+#include"CLASS.h"
+using namespace std;
+int main() {
+	sLinkList<int > test;
+	int cnt; cin >> cnt;
+	for (int i = 0;i < cnt;++i) {
+		test.insert(i, 2 * i + 1);
+	}
+	test.traverse();
+	cout<<test.visit(2);
+}
