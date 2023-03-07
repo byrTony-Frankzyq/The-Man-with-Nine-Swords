@@ -23,7 +23,7 @@ $$\frac{x_2^2}{y_1^1}$$
 
 好像和latex的不太一样，暂时不清楚
 
-''' c++
+''' C
 int main (){
 cout<<"hello,world"<<endl;
 return 0;
