@@ -13,18 +13,97 @@
 话说这个markdown格式咋搞
 
 昨天学习了一下，现在尝试回忆
-#一级标题
-##二级标题
+注意一下大部分语法句子都有空格（你要先让计算机知道这是一个命令嘛）
+# 一级标题
+## 二级标题
 
 ---
-上面的是认为分割线
+上面的是认为分割线（和这个无序列表一样，*和-都一样）
 
 $$\frac{x_2^2}{y_1^1}$$
 
 好像和latex的不太一样，暂时不清楚
 
-''' C
-int main (){
-cout<<"hello,world"<<endl;
-return 0;
-}
+> 这是一段引用
+
+这是一个有序列表:
+
+1. try
+  1. edsioja
+  2. dkal;jkg
+2. try_2
+
+
+这是一个无序列表：
+* try——1
+* 外币八部
+
+*这里可以采用斜体*
+
+***这里可以采用粗体***
+
+**两个*也能表示粗体吗**
+
+<u>下划线???<\u> 似乎也不太行
+
+:smile:
+
+==这是一段高亮文字== 似乎不太行
+
+m~1~y~1~x ？？这什么奇葩语法！！！
+
+$m_1\cdot m_2$ 这个需要这个紧挨着，跟前面的还有点区别
+
+[这是谷歌的网址](www.google.com "一个搜索引擎
+")
+
+当然，如果多次链接，可以采用引用的方式：
+
+[我的GitHub项目][链接]
+
+[我的GitHub项目][链接]
+
+[我的GitHub项目][链接]
+[链接]: www.github.com "一个合作开发中心？一个开源社区？"
+
+或者：
+http://www.google.com
+刚才是试了一下，好像这个要在main函数里面包含？？有点抽象！
+
+下面是一张图片
+![这是一张图片](https://th.bing.com/th/id/OIP.tmvIu57hTRpXhPRWkBDDEQHaEK?pid=ImgDet&dpr=2)
+
+|??|??|??|
+|:--|--:|:--:|
+|计算机|CS|外币八部|
+|物理|PH|AreYouGoodMalasiya|
+
+代办清单
+
+- [x] 吃饭
+- [x] 睡觉
+- [ ] 学习
+
+下面是代码块C++
+```c++
+
+int main（）{return 0;}
+```
+
+Python
+```python
+
+import numpy
+a = numpy.pi
+print(a)
+```
+
+脚注：
+一剑三连[^三连]
+[^三连]: 点赞/投币/收藏
+
+下面不知道可不可以嵌入？？？（看来不太行）
+<iframe src="//player.bilibili.com/player.html?aid=327623069&bvid=BV1JA411h7Gw&cid=171385214&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+")？
+")？
+")
