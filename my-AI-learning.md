@@ -6,4 +6,4 @@
  - code intepreter
  - autogen AI之间的交互，“角色扮演”
  - 让LLM具有“看公式的能力”，以及基于个人反馈的交互式解决问题的LLM或者流程（idea）
- - copilot说在github上也有集成，但我没发现
+ - copilot说在github上也有集成，但我没发现基于repo进行问答，这个挺不错的（没有copilot，可否基于插件）
